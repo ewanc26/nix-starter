@@ -128,12 +128,32 @@ sudo mkfs.ext4 -L nixos /dev/vda1
 sudo mkfs.fat -F 32 -n boot /dev/vda2
 ```
 
+**Recommended — add a second disk for `/srv`.**
+All service data (PDS repository, Mastodon media and database, secrets) is
+stored under `/srv`. Keeping it on a separate volume means you can resize,
+snapshot, or migrate it without touching the OS disk, and a full-disk event
+on one side won't take down the other.
+
+If your provider lets you attach a second disk (e.g. `/dev/vdb`), format it
+before mounting:
+
+```bash
+sudo mkfs.ext4 -L data /dev/vdb
+```
+
+Then uncomment the `fileSystems."/srv"` block in
+`hosts/server/hardware-configuration.nix` and update the device label if
+needed. On a single-disk setup the paths still work — `/srv` will just be a
+directory on the root filesystem.
+
 Mount:
 
 ```bash
 sudo mount /dev/disk/by-label/nixos /mnt
-sudo mkdir -p /mnt/boot
+sudo mkdir -p /mnt/boot /mnt/srv
 sudo mount -o umask=077 /dev/disk/by-label/boot /mnt/boot
+# If you formatted a second disk:
+sudo mount /dev/disk/by-label/data /mnt/srv
 ```
 
 Generate hardware config:
@@ -190,12 +210,12 @@ adminEmail = "you@example.com";
 ```nix
 hostname = "social.example.com";
 ```
-And your SMTP details:
+And your SMTP details (the config defaults to [Resend](https://resend.com) — sign up, create an API key, and put it in the smtp-password secret file):
 ```nix
 smtp = {
-  host        = "smtp.yourprovider.com";
+  host        = "smtp.resend.com";
   port        = 587;
-  user        = "mastodon@example.com";
+  user        = "resend";
   fromAddress = "notifications@social.example.com";
 };
 ```
@@ -291,12 +311,13 @@ nix-shell -p nodejs --run "node -e \"
   fs.writeFileSync('/var/lib/mastodon/secrets/vapid-public-key',  k.publicKey);
 \""
 
-# SMTP password (one line, no trailing newline)
-sudo sh -c 'echo -n "your-smtp-password" > /var/lib/mastodon/secrets/smtp-password'
+# SMTP password — paste your Resend API key here (one line, no trailing newline)
+# Get one from https://resend.com/api-keys
+sudo sh -c 'echo -n "re_xxxxxxxxxxxxxxxxxxxx" > /srv/mastodon/secrets/smtp-password'
 
 # Fix ownership and permissions
-sudo chown -R mastodon:mastodon /var/lib/mastodon/secrets
-sudo chmod 400 /var/lib/mastodon/secrets/*
+sudo chown -R mastodon:mastodon /srv/mastodon/secrets
+sudo chmod 400 /srv/mastodon/secrets/*
 ```
 
 ### Cloudflare Tunnel credentials

@@ -9,15 +9,20 @@ let
   # TODO: set these before deploying.
   hostname = "social.example.com";  # must match the ingress hostname in cloudflare-tunnel.nix
 
+  # All Mastodon data lives on the dedicated /srv disk.
+  # See hardware-configuration.nix for how to mount it.
+  mastodonDataDir = "/srv/mastodon";
+
   # Secret files — create these on the server before starting Mastodon.
   # See README.md — "Mastodon secrets" — for generation commands.
-  secretsDir = "/var/lib/mastodon/secrets";
+  secretsDir = "/srv/mastodon/secrets";
 in
 {
   # ── Mastodon ──────────────────────────────────────────────────────────────
   services.mastodon = {
     enable      = true;
     localDomain = hostname;
+    dataDir     = mastodonDataDir;
 
     configureNginx = true;
 
@@ -28,14 +33,14 @@ in
     vapidPrivateKeyFile = "${secretsDir}/vapid-private-key";
     vapidPublicKeyFile  = "${secretsDir}/vapid-public-key";
 
-    # SMTP — configure an outbound mail server so Mastodon can send emails.
-    # TODO: replace with your actual SMTP details.
+    # SMTP — Resend (https://resend.com) is the recommended provider.
+    # Sign up, create an API key, and place it in the smtp-password file.
+    # The API key is used as the SMTP password; the username is always "resend".
+    # TODO: create ${secretsDir}/smtp-password containing your Resend API key.
     smtp = {
-      host         = "smtp.example.com";
+      host         = "smtp.resend.com";
       port         = 587;
-      user         = "mastodon@example.com";
-      # Place your SMTP password in this file (one line, no trailing newline).
-      # TODO: create ${secretsDir}/smtp-password on the server.
+      user         = "resend";
       passwordFile = "${secretsDir}/smtp-password";
       fromAddress  = "notifications@${hostname}";
       authenticate = true;
@@ -53,6 +58,7 @@ in
 
   # ── Persistent secrets directory ───────────────────────────────────────────
   systemd.tmpfiles.rules = [
-    "d /var/lib/mastodon/secrets 0700 mastodon mastodon -"
+    "d ${mastodonDataDir}         0750 mastodon mastodon -"
+    "d ${secretsDir}              0700 mastodon mastodon -"
   ];
 }

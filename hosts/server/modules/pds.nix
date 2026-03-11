@@ -8,7 +8,7 @@ let
   # TODO: set these before deploying.
   hostname   = "pds.example.com";  # must match the ingress hostname in cloudflare-tunnel.nix
   adminEmail = "you@example.com";  # used for PDS admin
-  pdsDataDir = "/var/lib/pds";     # persistent PDS data — back this up
+  pdsDataDir = "/srv/pds";         # persistent PDS data on the dedicated /srv disk — back this up
   pdsPort    = 3000;               # internal port — never exposed publicly
 in
 {
