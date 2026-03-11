@@ -30,6 +30,15 @@
           ];
         };
 
+        # Combined PDS + Mastodon server.
+        # Service config lives in hosts/server/modules/{pds,mastodon}.nix.
+        server = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/server/default.nix
+            { nixpkgs.hostPlatform = "x86_64-linux"; }
+          ];
+        };
+
       };
     };
 }
