@@ -10,17 +10,22 @@ No personal infrastructure, no shared abstractions — just plain NixOS.
 | Host | Description |
 |------|-------------|
 | [`as-the-gods-intended`](hosts/as-the-gods-intended/README.md) | Minimal TUI laptop, optional KDE Plasma desktop |
+| [`atproto-pds`](hosts/atproto-pds/README.md) | Hardened server — AT Protocol Personal Data Server (Bluesky) |
 
 ## Structure
 
 ```
 flake.nix                        — top-level flake, wires up all hosts
 hosts/
-└── as-the-gods-intended/
-    ├── default.nix              — system config (boot, networking, packages)
-    ├── home.nix                 — user config (shell, editor, tools)
+├── as-the-gods-intended/
+│   ├── default.nix              — system config (boot, networking, packages)
+│   ├── home.nix                 — user config (shell, editor, tools)
+│   ├── hardware-configuration.nix  — generated per-machine, replace before install
+│   └── README.md                — full setup guide for that host
+└── atproto-pds/
+    ├── default.nix              — PDS, Caddy, SSH hardening, fail2ban
     ├── hardware-configuration.nix  — generated per-machine, replace before install
-    └── README.md                — full setup guide for that host
+    └── README.md                — full setup and secrets guide
 ```
 
 ## Adding a new host
