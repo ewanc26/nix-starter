@@ -10,7 +10,7 @@ No personal infrastructure, no shared abstractions — just plain NixOS.
 | Host | Description |
 |------|-------------|
 | [`as-the-gods-intended`](hosts/as-the-gods-intended/README.md) | Minimal TUI laptop, optional KDE Plasma desktop |
-| [`atproto-pds`](hosts/atproto-pds/README.md) | Hardened server — AT Protocol Personal Data Server (Bluesky) |
+| [`server`](hosts/server/README.md) | Hardened server — AT Protocol PDS + Mastodon via Cloudflare Tunnel |
 
 ## Structure
 
@@ -22,10 +22,14 @@ hosts/
 │   ├── home.nix                 — user config (shell, editor, tools)
 │   ├── hardware-configuration.nix  — generated per-machine, replace before install
 │   └── README.md                — full setup guide for that host
-└── atproto-pds/
-    ├── default.nix              — PDS, Caddy, SSH hardening, fail2ban
+└── server/
+    ├── default.nix              — host skeleton (boot, networking, SSH, nginx, nix)
     ├── hardware-configuration.nix  — generated per-machine, replace before install
-    └── README.md                — full setup and secrets guide
+    ├── README.md                — full setup, secrets, and tunnel guide
+    └── modules/
+        ├── cloudflare-tunnel.nix   — outbound tunnel, ingress rules for both services
+        ├── pds.nix                 — bluesky-pds + nginx vhost
+        └── mastodon.nix            — Mastodon + nginx vhost overrides
 ```
 
 ## Adding a new host
