@@ -1,0 +1,35 @@
+# nix-starter — standalone NixOS configurations
+# This is intentionally decoupled from any personal flake infrastructure.
+# Each host under hosts/ is a self-contained NixOS system.
+#
+# Source: https://github.com/ewanc26/nix-starter
+#
+# Build / deploy (from /etc/nixos after cloning there):
+#   sudo nixos-rebuild switch --flake /etc/nixos#<hostname>
+{
+  description = "nix-starter — beginner-friendly NixOS configurations";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-25.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs =
+    { nixpkgs, home-manager, ... }:
+    {
+      nixosConfigurations = {
+
+        as-the-gods-intended = nixpkgs.lib.nixosSystem {
+          modules = [
+            ./hosts/as-the-gods-intended/default.nix
+            home-manager.nixosModules.home-manager
+            { nixpkgs.hostPlatform = "x86_64-linux"; }
+          ];
+        };
+
+      };
+    };
+}
