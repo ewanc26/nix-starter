@@ -2,7 +2,7 @@
 # All user-facing tools and their settings are declared here.
 # Edit this file and run `nrs` (or `sudo nixos-rebuild switch --flake /etc/nixos#as-the-gods-intended`) to apply changes.
 # See README.md for a guide to making changes.
-{ pkgs, ... }:
+{ ... }:
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -60,7 +60,6 @@
     # TODO: fill in name and email before first use.
     programs.git = {
       enable = true;
-      # TODO: fill in name and email before first use.
       settings = {
         user.name   = "Your Name";
         user.email  = "you@example.com";
