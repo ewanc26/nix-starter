@@ -17,5 +17,21 @@
     fsType = "ext4";
   };
 
+  # Recommended: mount a dedicated second disk at /srv for all service data
+  # (PDS repository, Mastodon media, and Mastodon secrets).  Keeping service
+  # data on a separate disk makes it easy to resize, snapshot, or migrate
+  # independently of the OS volume, and reduces the blast radius of a full-
+  # disk event on either side.
+  #
+  # Format the data disk before first boot, then uncomment this block:
+  #
+  #   sudo mkfs.ext4 -L data /dev/vdb          # adjust device as needed
+  #
+  # fileSystems."/srv" = {
+  #   device  = "/dev/disk/by-label/data";
+  #   fsType  = "ext4";
+  #   options = [ "defaults" "noatime" ];
+  # };
+
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
 }
