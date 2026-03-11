@@ -24,7 +24,7 @@
         ignoreSpace = true;
         share = true;
       };
-      initExtra = ''
+      initContent = ''
         autoload -Uz compinit && compinit
         zstyle ':completion:*' menu select
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -60,10 +60,10 @@
     # TODO: fill in name and email before first use.
     programs.git = {
       enable = true;
-      userName  = "Your Name";
-      userEmail = "you@example.com";
-      defaultBranch = "main";
-      extraConfig = {
+      # TODO: fill in name and email before first use.
+      settings = {
+        user.name   = "Your Name";
+        user.email  = "you@example.com";
         core = {
           editor    = "hx";
           autocrlf  = "input";
@@ -71,14 +71,15 @@
         };
         pull.rebase          = false;
         push.autoSetupRemote = true;
+        init.defaultBranch   = "main";
         merge.conflictstyle  = "diff3";
         diff.colorMoved      = "default";
-      };
-      aliases = {
-        st  = "status -sb";
-        lg  = "log --oneline --graph --decorate";
-        lga = "log --oneline --graph --decorate --all";
-        undo = "reset --soft HEAD~1";
+        alias = {
+          st  = "status -sb";
+          lg  = "log --oneline --graph --decorate";
+          lga = "log --oneline --graph --decorate --all";
+          undo = "reset --soft HEAD~1";
+        };
       };
     };
 

@@ -9,4 +9,13 @@
   #   sudo nixos-generate-config --root /mnt
   #   cp /mnt/etc/nixos/hardware-configuration.nix \
   #      /mnt/etc/nixos/hosts/server/hardware-configuration.nix
+
+  # Placeholder root filesystem — required by `nix flake check`.
+  # nixos-generate-config will produce the real entries for your disk layout.
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
+  };
+
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
 }

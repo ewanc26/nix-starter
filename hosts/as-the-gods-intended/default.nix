@@ -95,7 +95,7 @@ in
   ]);
 
   # Pipewire audio — only needed with a desktop session.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = lib.mkIf enableDesktop true;
   services.pipewire = lib.mkIf enableDesktop {
     enable = true;

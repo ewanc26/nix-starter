@@ -21,8 +21,10 @@ in
 
     configureNginx = true;
 
+    streamingProcesses = 1;
+
     secretKeyBaseFile   = "${secretsDir}/secret-key-base";
-    otpSecretFile       = "${secretsDir}/otp-secret";
+    # otpSecretFile was removed in Mastodon 4.4.0 — do not set it.
     vapidPrivateKeyFile = "${secretsDir}/vapid-private-key";
     vapidPublicKeyFile  = "${secretsDir}/vapid-public-key";
 
