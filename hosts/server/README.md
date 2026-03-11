@@ -282,9 +282,6 @@ sudo mkdir -p /var/lib/mastodon/secrets
 # Secret key base
 sudo sh -c 'openssl rand -hex 64 > /var/lib/mastodon/secrets/secret-key-base'
 
-# OTP secret
-sudo sh -c 'openssl rand -hex 64 > /var/lib/mastodon/secrets/otp-secret'
-
 # VAPID keys for Web Push notifications
 nix-shell -p nodejs --run "node -e \"
   const {generateVAPIDKeys} = require('web-push');
