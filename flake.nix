@@ -15,10 +15,16 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Isabel's packages — provides pds-gatekeeper NixOS module and package
+    tgirlpkgs = {
+      url = "github:tgirlcloud/pkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    { nixpkgs, home-manager, tgirlpkgs, ... }:
     {
       nixosConfigurations = {
 
@@ -34,6 +40,7 @@
         # Service config lives in hosts/server/modules/{pds,mastodon}.nix.
         server = nixpkgs.lib.nixosSystem {
           modules = [
+            tgirlpkgs.nixosModules.default
             ./hosts/server/default.nix
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
