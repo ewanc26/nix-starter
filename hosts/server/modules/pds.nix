@@ -1,20 +1,21 @@
-# pds.nix — AT Protocol Personal Data Server module.
+# pds.nix -- AT Protocol Personal Data Server module.
 # Imported by hosts/server/default.nix.
 # Configures bluesky-pds and adds a plain-HTTP nginx vhost for it.
 # TLS is terminated at Cloudflare's edge via the tunnel in cloudflare-tunnel.nix.
-{ ... }:
+#
+# Hostname, ports, and data directory come from pdsConfig, which is defined
+# once in default.nix and passed via _module.args -- edit them there.
+{ pdsConfig, ... }:
 let
-  # ── PDS configuration ──────────────────────────────────────────────────────
-  # TODO: set these before deploying.
-  hostname   = "pds.example.com";  # must match the ingress hostname in cloudflare-tunnel.nix
-  adminEmail = "you@example.com";  # used for PDS admin
-  pdsDataDir = "/srv/pds";         # persistent PDS data on the dedicated /srv disk — back this up
-  pdsPort    = 3000;               # internal port — never exposed publicly
+  hostname   = pdsConfig.hostname;
+  adminEmail = pdsConfig.adminEmail;
+  pdsDataDir = pdsConfig.dataDir;
+  pdsPort    = pdsConfig.port;
 in
 {
-  # ── AT Protocol PDS ─────────────────────────────────────────────────────────
+  # -- AT Protocol PDS ---------------------------------------------------------
   # Secrets are loaded from an env file you create manually on the server.
-  # See README.md — "PDS secrets" — for exactly what to put in it.
+  # See README.md -- "PDS secrets" -- for exactly what to put in it.
   services.bluesky-pds = {
     enable = true;
     environmentFiles = [ "${pdsDataDir}/pds.env" ];
@@ -27,8 +28,8 @@ in
     };
   };
 
-  # ── nginx vhost ─────────────────────────────────────────────────────────────
-  # Plain HTTP — cloudflared routes external HTTPS traffic here; nginx proxies
+  # -- nginx vhost -------------------------------------------------------------
+  # Plain HTTP -- cloudflared routes external HTTPS traffic here; nginx proxies
   # to the PDS daemon. No ACME cert needed; Cloudflare terminates TLS.
   # nginx itself is enabled and tuned in default.nix.
   services.nginx.virtualHosts."${hostname}" = {
@@ -38,7 +39,7 @@ in
     };
   };
 
-  # ── Persistent directory ──────────────────────────────────────────────────────
+  # -- Persistent directory ----------------------------------------------------
   systemd.tmpfiles.rules = [
     "d ${pdsDataDir} 0750 bluesky-pds bluesky-pds -"
   ];

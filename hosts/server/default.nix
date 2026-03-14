@@ -8,12 +8,24 @@ let
   # ── Configuration ─────────────────────────────────────────────────────────
   # TODO: set these before deploying.
   adminUser = "admin";  # your desired username
+
+  # Shared PDS settings — single source of truth consumed by pds.nix and
+  # pds-gatekeeper.nix via _module.args.pdsConfig.
+  pdsConfig = {
+    hostname   = "pds.example.com";  # TODO: your PDS hostname
+    adminEmail = "you@example.com";  # TODO: your admin email
+    dataDir    = "/srv/pds";
+    port       = 3000;
+  };
 in
 {
+  _module.args.pdsConfig = pdsConfig;
+
   imports = [
     ./hardware-configuration.nix
     ./modules/cloudflare-tunnel.nix
     ./modules/pds.nix
+    ./modules/pds-gatekeeper.nix
     ./modules/mastodon.nix
   ];
 
