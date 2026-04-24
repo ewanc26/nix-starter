@@ -5,6 +5,8 @@
 Beginner-friendly, self-contained NixOS configurations.
 No personal infrastructure, no shared abstractions — just plain NixOS.
 
+> 🧶 Also available on [Tangled](https://tangled.org/ewancroft.uk/nix-starter)
+
 ## Hosts
 
 | Host | Description |
