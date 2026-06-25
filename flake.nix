@@ -9,6 +9,7 @@
 {
   description = "nix-starter — beginner-friendly NixOS configurations";
 
+  # ── Inputs ───────────────────────────────────────────────────────────────
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     home-manager = {
@@ -23,6 +24,7 @@
     };
   };
 
+  # ── Outputs ──────────────────────────────────────────────────────────────
   outputs =
     { nixpkgs, home-manager, tgirlpkgs, ... }:
     {

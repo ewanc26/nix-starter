@@ -1,3 +1,5 @@
+# nix-starter pre-commit hooks.
+# Formats all .nix files with nixfmt before each commit.
 repos:
   - repo: local
     hooks:
