@@ -1,0 +1,11 @@
+# Nix build outputs
+result
+result-*
+
+# direnv
+.direnv
+.envrc
+
+# OS metadata
+.DS_Store
+**/.DS_Store
