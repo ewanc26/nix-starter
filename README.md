@@ -48,7 +48,8 @@ hosts/
 
 - NixOS manual: https://nixos.org/manual/nixos/stable
 - Package search: https://search.nixos.org/packages
-- Home Manager options: https://nix-community.github.io/home-manager/options.xhtml
+- Home Manager options: https://nix-community.github.io/home-manager/optio
+ns.xhtml
 - NixOS Discourse: https://discourse.nixos.org
 
 ## Support
@@ -58,3 +59,11 @@ If you find this project useful, consider supporting its development:
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/ewancroft)
 [![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-30363D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/ewanc26)
 [![Liberapay](https://img.shields.io/badge/Liberapay-A60000?style=for-the-badge&logo=liberapay&logoColor=white)](https://liberapay.com/ewanc26/)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and the checks required before opening a pull request.
+
+## Licence
+
+See [LICENSE](LICENSE) for the licence terms.

@@ -4,7 +4,7 @@ Guidance for AI coding agents working in **nix-starter**.
 
 ## Project overview
 
-a starter NixOS configuration
+A starter NixOS configuration
 
 - Language: Nix
 - Default branch: main
