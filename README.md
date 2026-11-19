@@ -48,8 +48,7 @@ hosts/
 
 - NixOS manual: https://nixos.org/manual/nixos/stable
 - Package search: https://search.nixos.org/packages
-- Home Manager options: https://nix-community.github.io/home-manager/optio
-ns.xhtml
+- Home Manager options: https://nix-community.github.io/home-manager/options.xhtml
 - NixOS Discourse: https://discourse.nixos.org
 
 ## Support
