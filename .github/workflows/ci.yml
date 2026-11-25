@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v32
+      - name: Check formatting
+        run: git ls-files -z '*.nix' | xargs -0 nix shell --inputs-from . nixpkgs#nixfmt-rfc-style -c nixfmt --check
+      - name: Evaluate flake
+        run: nix flake check --no-build --no-write-lock-file
