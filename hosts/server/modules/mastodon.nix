@@ -7,7 +7,7 @@
 let
   # ── Mastodon configuration ─────────────────────────────────────────────────
   # TODO: set these before deploying.
-  hostname = "social.example.com";  # must match the ingress hostname in cloudflare-tunnel.nix
+  hostname = "social.example.com"; # must match the ingress hostname in cloudflare-tunnel.nix
 
   # All Mastodon data lives on the dedicated /srv disk.
   # See hardware-configuration.nix for how to mount it.
@@ -20,29 +20,29 @@ in
 {
   # ── Mastodon ──────────────────────────────────────────────────────────────
   services.mastodon = {
-    enable      = true;
+    enable = true;
     localDomain = hostname;
-    dataDir     = mastodonDataDir;
+    dataDir = mastodonDataDir;
 
     configureNginx = true;
 
     streamingProcesses = 1;
 
-    secretKeyBaseFile   = "${secretsDir}/secret-key-base";
+    secretKeyBaseFile = "${secretsDir}/secret-key-base";
     # otpSecretFile was removed in Mastodon 4.4.0 — do not set it.
     vapidPrivateKeyFile = "${secretsDir}/vapid-private-key";
-    vapidPublicKeyFile  = "${secretsDir}/vapid-public-key";
+    vapidPublicKeyFile = "${secretsDir}/vapid-public-key";
 
     # SMTP — Resend (https://resend.com) is the recommended provider.
     # Sign up, create an API key, and place it in the smtp-password file.
     # The API key is used as the SMTP password; the username is always "resend".
     # TODO: create ${secretsDir}/smtp-password containing your Resend API key.
     smtp = {
-      host         = "smtp.resend.com";
-      port         = 587;
-      user         = "resend";
+      host = "smtp.resend.com";
+      port = 587;
+      user = "resend";
       passwordFile = "${secretsDir}/smtp-password";
-      fromAddress  = "notifications@${hostname}";
+      fromAddress = "notifications@${hostname}";
       authenticate = true;
     };
   };
@@ -53,7 +53,7 @@ in
   # to serve plain HTTP on localhost.
   services.nginx.virtualHosts."${hostname}" = {
     enableACME = lib.mkForce false;
-    forceSSL   = lib.mkForce false;
+    forceSSL = lib.mkForce false;
   };
 
   # ── Persistent secrets directory ───────────────────────────────────────────

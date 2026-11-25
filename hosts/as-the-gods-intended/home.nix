@@ -31,14 +31,14 @@
       '';
       shellAliases = {
         # eza
-        ls  = "eza --icons --group-directories-first";
-        ll  = "eza --icons --group-directories-first -l";
-        la  = "eza --icons --group-directories-first -la";
-        lt  = "eza --icons --tree --level=2";
+        ls = "eza --icons --group-directories-first";
+        ll = "eza --icons --group-directories-first -l";
+        la = "eza --icons --group-directories-first -la";
+        lt = "eza --icons --tree --level=2";
         # bat
         cat = "bat --paging=never";
         # navigation
-        ".."  = "cd ..";
+        ".." = "cd ..";
         "..." = "cd ../..";
         mkdir = "mkdir -p";
         # NixOS rebuild
@@ -61,21 +61,21 @@
     programs.git = {
       enable = true;
       settings = {
-        user.name   = "Your Name";
-        user.email  = "you@example.com";
+        user.name = "Your Name";
+        user.email = "you@example.com";
         core = {
-          editor    = "hx";
-          autocrlf  = "input";
+          editor = "hx";
+          autocrlf = "input";
           whitespace = "trailing-space,space-before-tab";
         };
-        pull.rebase          = false;
+        pull.rebase = false;
         push.autoSetupRemote = true;
-        init.defaultBranch   = "main";
-        merge.conflictstyle  = "diff3";
-        diff.colorMoved      = "default";
+        init.defaultBranch = "main";
+        merge.conflictstyle = "diff3";
+        diff.colorMoved = "default";
         alias = {
-          st  = "status -sb";
-          lg  = "log --oneline --graph --decorate";
+          st = "status -sb";
+          lg = "log --oneline --graph --decorate";
           lga = "log --oneline --graph --decorate --all";
           undo = "reset --soft HEAD~1";
         };
@@ -85,14 +85,14 @@
     # ── tmux ────────────────────────────────────────────────────────────────
     programs.tmux = {
       enable = true;
-      prefix        = "C-a";
-      mouse         = true;
-      historyLimit  = 10000;
-      baseIndex     = 1;
-      escapeTime    = 0;       # no delay after Escape — important for Helix
-      terminal      = "tmux-256color";
-      focusEvents   = true;
-      extraConfig   = ''
+      prefix = "C-a";
+      mouse = true;
+      historyLimit = 10000;
+      baseIndex = 1;
+      escapeTime = 0; # no delay after Escape — important for Helix
+      terminal = "tmux-256color";
+      focusEvents = true;
+      extraConfig = ''
         set -ga terminal-overrides ",xterm-256color:Tc"
         set -g renumber-windows on
         set -g pane-base-index 1
@@ -126,9 +126,9 @@
     programs.bat = {
       enable = true;
       config = {
-        theme        = "TwoDark";
-        style        = "numbers,changes";
-        italic-text  = "always";
+        theme = "TwoDark";
+        style = "numbers,changes";
+        italic-text = "always";
       };
     };
 
@@ -136,14 +136,14 @@
     programs.btop = {
       enable = true;
       settings = {
-        color_theme   = "Default";
-        update_ms     = 2000;
-        shown_boxes   = "cpu mem net proc";
-        clock_format  = "%H:%M";
-        check_temp    = true;
-        proc_sorting  = "cpu lazy";
+        color_theme = "Default";
+        update_ms = 2000;
+        shown_boxes = "cpu mem net proc";
+        clock_format = "%H:%M";
+        check_temp = true;
+        proc_sorting = "cpu lazy";
         proc_reversed = false;
-        proc_tree     = false;
+        proc_tree = false;
       };
     };
 
@@ -151,7 +151,7 @@
     programs.fastfetch = {
       enable = true;
       settings = {
-        logo.type        = "auto";
+        logo.type = "auto";
         display.separator = "  ";
         modules = [
           "title"
@@ -180,11 +180,14 @@
       settings = {
         theme = "catppuccin_mocha";
         editor = {
-          line-number            = "relative";
-          cursorline             = true;
-          auto-save              = true;
+          line-number = "relative";
+          cursorline = true;
+          auto-save = true;
           completion-trigger-len = 1;
-          rulers                 = [ 80 120 ];
+          rulers = [
+            80
+            120
+          ];
           cursor-shape = {
             insert = "bar";
             normal = "block";
@@ -192,12 +195,21 @@
           };
           file-picker.hidden = false;
           statusline = {
-            left   = [ "mode" "spinner" "file-name" ];
+            left = [
+              "mode"
+              "spinner"
+              "file-name"
+            ];
             center = [ ];
-            right  = [ "diagnostics" "selections" "position" "file-encoding" ];
+            right = [
+              "diagnostics"
+              "selections"
+              "position"
+              "file-encoding"
+            ];
           };
           indent-guides = {
-            render    = true;
+            render = true;
             character = "╎";
           };
         };
@@ -205,8 +217,10 @@
       languages = {
         language = [
           {
-            name      = "nix";
-            formatter = { command = "nixfmt"; };
+            name = "nix";
+            formatter = {
+              command = "nixfmt";
+            };
           }
         ];
       };

@@ -34,11 +34,11 @@
 let
   # ── Tunnel configuration ────────────────────────────────────────────────────
   # TODO: replace with the UUID from `cloudflared tunnel create server`.
-  tunnelId        = "00000000-0000-0000-0000-000000000000";
+  tunnelId = "00000000-0000-0000-0000-000000000000";
   credentialsFile = "/var/lib/cloudflared/${tunnelId}.json";
 
   # These must match the hostnames in pds.nix and mastodon.nix.
-  pdsHostname      = "pds.example.com";
+  pdsHostname = "pds.example.com";
   mastodonHostname = "social.example.com";
 in
 {
@@ -50,7 +50,7 @@ in
       ingress = {
         # Both hostnames route to nginx on localhost; nginx differentiates by
         # the Host header and proxies each to the correct backend service.
-        ${pdsHostname}      = "http://127.0.0.1:80";
+        ${pdsHostname} = "http://127.0.0.1:80";
         ${mastodonHostname} = "http://127.0.0.1:80";
       };
     };

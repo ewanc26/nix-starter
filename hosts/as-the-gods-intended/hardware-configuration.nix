@@ -1,6 +1,11 @@
 # Replace this file with the output of `nixos-generate-config` on the target
 # hardware, then commit the result.  The values below are illustrative only.
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 

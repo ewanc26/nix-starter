@@ -33,5 +33,11 @@
   #   options = [ "defaults" "noatime" ];
   # };
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "virtio_pci" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [
+    "ahci"
+    "xhci_pci"
+    "virtio_pci"
+    "sd_mod"
+    "sr_mod"
+  ];
 }
