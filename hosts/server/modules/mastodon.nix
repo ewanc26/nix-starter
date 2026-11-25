@@ -9,8 +9,9 @@ let
   # TODO: set these before deploying.
   hostname = "social.example.com"; # must match the ingress hostname in cloudflare-tunnel.nix
 
-  # All Mastodon data lives on the dedicated /srv disk.
-  # See hardware-configuration.nix for how to mount it.
+  # All Mastodon data lives on the dedicated /srv disk. The NixOS module always
+  # uses /var/lib/mastodon, so this directory is bind-mounted there.
+  # See hardware-configuration.nix for how to mount /srv.
   mastodonDataDir = "/srv/mastodon";
 
   # Secret files — create these on the server before starting Mastodon.
@@ -22,7 +23,6 @@ in
   services.mastodon = {
     enable = true;
     localDomain = hostname;
-    dataDir = mastodonDataDir;
 
     configureNginx = true;
 
@@ -45,6 +45,16 @@ in
       fromAddress = "notifications@${hostname}";
       authenticate = true;
     };
+  };
+
+  # ── Keep Mastodon's state on /srv ──────────────────────────────────────────
+  # The bind source must exist before it can be mounted.
+  system.activationScripts.mastodonDataDir = "mkdir -p ${mastodonDataDir}";
+  fileSystems."/var/lib/mastodon" = {
+    device = mastodonDataDir;
+    fsType = "none";
+    options = [ "bind" ];
+    depends = [ "/srv" ];
   };
 
   # ── Override the mastodon-generated nginx vhost ────────────────────────────
