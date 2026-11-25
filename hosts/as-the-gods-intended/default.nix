@@ -41,7 +41,11 @@ in
     extraGroups = [
       "networkmanager"
       "wheel"
-    ] ++ lib.optionals enableDesktop [ "audio" "video" ];
+    ]
+    ++ lib.optionals enableDesktop [
+      "audio"
+      "video"
+    ];
     shell = pkgs.zsh;
   };
 
@@ -83,16 +87,19 @@ in
 
   services.desktopManager.plasma6.enable = lib.mkIf enableDesktop true;
 
-  environment.plasma6.excludePackages = lib.mkIf enableDesktop (with pkgs.kdePackages; [
-    oxygen       # legacy theme
-    elisa        # music player
-    kmail        # email client
-    kontact      # PIM suite
-    korganizer   # calendar
-    kaddressbook # contacts
-    akregator    # RSS reader
-    dragon       # video player
-  ]);
+  environment.plasma6.excludePackages = lib.mkIf enableDesktop (
+    with pkgs.kdePackages;
+    [
+      oxygen # legacy theme
+      elisa # music player
+      kmail # email client
+      kontact # PIM suite
+      korganizer # calendar
+      kaddressbook # contacts
+      akregator # RSS reader
+      dragon # video player
+    ]
+  );
 
   # Pipewire audio — only needed with a desktop session.
   services.pulseaudio.enable = false;

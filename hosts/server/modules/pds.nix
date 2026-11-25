@@ -7,10 +7,10 @@
 # once in default.nix and passed via _module.args -- edit them there.
 { pdsConfig, ... }:
 let
-  hostname   = pdsConfig.hostname;
+  hostname = pdsConfig.hostname;
   adminEmail = pdsConfig.adminEmail;
   pdsDataDir = pdsConfig.dataDir;
-  pdsPort    = pdsConfig.port;
+  pdsPort = pdsConfig.port;
 in
 {
   # -- AT Protocol PDS ---------------------------------------------------------
@@ -20,11 +20,11 @@ in
     enable = true;
     environmentFiles = [ "${pdsDataDir}/pds.env" ];
     settings = {
-      PDS_HOSTNAME       = hostname;
-      PDS_PORT           = pdsPort;
+      PDS_HOSTNAME = hostname;
+      PDS_PORT = pdsPort;
       PDS_DATA_DIRECTORY = pdsDataDir;
-      PDS_ADMIN_EMAIL    = adminEmail;
-      PDS_CRAWLERS       = "https://bsky.network";
+      PDS_ADMIN_EMAIL = adminEmail;
+      PDS_CRAWLERS = "https://bsky.network";
     };
   };
 
@@ -34,7 +34,7 @@ in
   # nginx itself is enabled and tuned in default.nix.
   services.nginx.virtualHosts."${hostname}" = {
     locations."/" = {
-      proxyPass       = "http://127.0.0.1:${toString pdsPort}";
+      proxyPass = "http://127.0.0.1:${toString pdsPort}";
       proxyWebsockets = true;
     };
   };

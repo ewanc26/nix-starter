@@ -26,7 +26,12 @@
 
   # ── Outputs ──────────────────────────────────────────────────────────────
   outputs =
-    { nixpkgs, home-manager, tgirlpkgs, ... }:
+    {
+      nixpkgs,
+      home-manager,
+      tgirlpkgs,
+      ...
+    }:
     {
       nixosConfigurations = {
 

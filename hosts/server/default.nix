@@ -7,15 +7,15 @@
 let
   # ── Configuration ─────────────────────────────────────────────────────────
   # TODO: set these before deploying.
-  adminUser = "admin";  # your desired username
+  adminUser = "admin"; # your desired username
 
   # Shared PDS settings — single source of truth consumed by pds.nix and
   # pds-gatekeeper.nix via _module.args.pdsConfig.
   pdsConfig = {
-    hostname   = "pds.example.com";  # TODO: your PDS hostname
-    adminEmail = "you@example.com";  # TODO: your admin email
-    dataDir    = "/srv/pds";
-    port       = 3000;
+    hostname = "pds.example.com"; # TODO: your PDS hostname
+    adminEmail = "you@example.com"; # TODO: your admin email
+    dataDir = "/srv/pds";
+    port = 3000;
   };
 in
 {
@@ -55,8 +55,8 @@ in
   # Password login is disabled — you must add a public key before deploying.
   users.users.${adminUser} = {
     isNormalUser = true;
-    extraGroups  = [ "wheel" ];
-    shell        = pkgs.bash;
+    extraGroups = [ "wheel" ];
+    shell = pkgs.bash;
     # TODO: replace with your actual SSH public key.
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAA... you@yourhost"
@@ -65,8 +65,8 @@ in
 
   # ── Packages ──────────────────────────────────────────────────────────────
   environment.systemPackages = with pkgs; [
-    atproto-goat  # official AT Proto account management CLI
-    cloudflared   # tunnel CLI — useful for setup and inspection
+    atproto-goat # official AT Proto account management CLI
+    cloudflared # tunnel CLI — useful for setup and inspection
     curl
     wget
     git
@@ -78,30 +78,30 @@ in
   # ── SSH — hardened, key-only ───────────────────────────────────────────────
   services.openssh = {
     enable = true;
-    ports  = [ 22 ];
+    ports = [ 22 ];
     settings = {
-      PermitRootLogin              = "no";
-      PasswordAuthentication       = false;
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      MaxAuthTries                 = 3;
-      ClientAliveInterval          = 300;
-      ClientAliveCountMax          = 2;
-      X11Forwarding                = false;
+      MaxAuthTries = 3;
+      ClientAliveInterval = 300;
+      ClientAliveCountMax = 2;
+      X11Forwarding = false;
     };
   };
 
   # ── fail2ban — ban IPs that hammer SSH ────────────────────────────────────
   services.fail2ban = {
-    enable   = true;
+    enable = true;
     maxretry = 5;
     jails.sshd.settings = {
-      enabled  = true;
-      port     = "22";
-      filter   = "sshd";
-      backend  = "systemd";
+      enabled = true;
+      port = "22";
+      filter = "sshd";
+      backend = "systemd";
       maxretry = 5;
       findtime = 600;
-      bantime  = 600;
+      bantime = 600;
     };
   };
 
@@ -111,13 +111,13 @@ in
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
-    recommendedGzipSettings  = true;
-    recommendedOptimisation   = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
     # No recommendedTlsSettings — no server-side TLS with a CF tunnel.
   };
 
   # ── Maintenance ───────────────────────────────────────────────────────────
-  services.fstrim.enable    = true;
+  services.fstrim.enable = true;
   services.timesyncd.enable = true;
 
   services.journald.extraConfig = ''
@@ -126,14 +126,20 @@ in
   '';
 
   # ── Nix ───────────────────────────────────────────────────────────────────
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.auto-optimise-store   = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
-    dates     = "weekly";
-    options   = "--delete-older-than 30d";
+    dates = "weekly";
+    options = "--delete-older-than 30d";
   };
-  nix.settings.allowed-users = [ "root" "@wheel" ];
+  nix.settings.allowed-users = [
+    "root"
+    "@wheel"
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
