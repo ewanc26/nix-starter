@@ -18,10 +18,9 @@
     };
 
     # Isabel's packages — provides pds-gatekeeper NixOS module and package
-    tgirlpkgs = {
-      url = "github:tgirlcloud/pkgs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # It keeps its own nixpkgs: its packages need newer helpers than the stable
+    # channel above provides.
+    tgirlpkgs.url = "github:tgirlcloud/pkgs";
   };
 
   # ── Outputs ──────────────────────────────────────────────────────────────
@@ -48,6 +47,9 @@
         server = nixpkgs.lib.nixosSystem {
           modules = [
             tgirlpkgs.nixosModules.default
+            {
+              services.pds-gatekeeper.package = tgirlpkgs.packages.x86_64-linux.pds-gatekeeper;
+            }
             ./hosts/server/default.nix
             { nixpkgs.hostPlatform = "x86_64-linux"; }
           ];
